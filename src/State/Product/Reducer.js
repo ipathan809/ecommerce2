@@ -4,7 +4,10 @@ import {
     FIND_PRODUCTS_FAILURE,
     FIND_PRODUCT_BY_ID_REQUEST,
     FIND_PRODUCT_BY_ID_SUCCESS,
-    FIND_PRODUCT_BY_ID_FAILURE
+    FIND_PRODUCT_BY_ID_FAILURE,
+    DELETE_PRODUCTS_SUCCESS,
+    DELETE_PRODUCTS_REQUEST,
+    DELETE_PRODUCTS_FAILURE
     
   } from "./ActionType";
 
@@ -69,27 +72,27 @@ import {
         //     loading: false,
         //     error: action.payload,
         //   };
-        // case DELETE_PRODUCT_REQUEST:
-        //   return {
-        //     ...state,
-        //     loading: true,
-        //     error: null,
-        //   };
-        // case DELETE_PRODUCT_SUCCESS:
-        //   console.log("dlete ",state.products)
-        //   return {
-        //     ...state,
-        //     loading: false,
-        //     deleteProduct:action.payload
+        case DELETE_PRODUCTS_REQUEST:
+          return {
+            ...state,
+            loading: true,
+            error: null,
+          };
+        case DELETE_PRODUCTS_SUCCESS:
+          console.log("dlete ",state.products)
+          return {
+            ...state,
+            loading: false,
+            deleteProduct:action.payload
             
             
-        //   };
-        // case DELETE_PRODUCT_FAILURE:
-        //   return {
-        //     ...state,
-        //     loading: false,
-        //     error: action.payload,
-        //   };
+          };
+        case DELETE_PRODUCTS_FAILURE:
+          return {
+            ...state,
+            loading: false,
+            error: action.payload,
+          };
       default:
         return state;
     }

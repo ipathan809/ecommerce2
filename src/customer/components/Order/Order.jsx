@@ -1,15 +1,27 @@
 import { Grid } from "@mui/material";
 import React from "react";
+import { useEffect } from "react";
 import OrderCard from "./OrderCard";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrderHistory } from "../../../State/Order/Action";
 
 const orderStatus = [
     {lable:"On The Way", value:"on_the_way"},
     {lable:"Delivered", value:"delivered"},
     {lable:"Cancelled", value:"cancelled"},
     {lable:"Returned", value:"returned"},
+
 ]
 
 const Order = () => {
+
+    const dispatch = useDispatch();
+    const jwt = localStorage.getItem("jwt");
+    const {order}=useSelector(store=>store);
+  
+    useEffect(() => {
+      dispatch(getOrderHistory({ jwt }));
+    }, [jwt]);
 
     return(
         <div className="px-5 lg:px-20"> 
@@ -35,7 +47,10 @@ const Order = () => {
                 <Grid item xs={9}>
 
                      <div className="space-y-5">
-                       {[1,1,1,1,1,1].map((item)=><OrderCard/>)}
+                       {/* {[1,1,1,1].map((item)=><OrderCard/>)} */}
+                       {order.orders?.length>0 && order.orders?.map((order )=> {
+              return order?.orderItems?.map((item,index)=> <OrderCard item={item} order={order} />)
+            })}
                      </div>
                 </Grid>
             </Grid>

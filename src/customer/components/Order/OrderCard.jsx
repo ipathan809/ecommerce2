@@ -2,52 +2,72 @@ import React from "react";
 import { Grid } from "@mui/material";
 import AdjustIcon from '@mui/icons-material/Adjust';
 import { useNavigate } from "react-router-dom";
-
-const OrderCard = () => {
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import StarIcon from "@mui/icons-material/Star";
+const OrderCard = ({item,order}) => {
 
     const navigate=useNavigate();
 
+    console.log("items ", item,order,order.orderStatus);
+
     return (
-        <div onClick={()=>navigate(`/account/order/${5}`)} className="p-5 shadow-md shadow-black hover:shadow-2xl border">
+        <div  className="p-5 shadow-md shadow-black hover:shadow-2xl border">
             <Grid container spacing={2} sx={{justifyContent:"space-between"}}>
                 <Grid item xs={6}>
-                    <div className="flex cursor-pointer">
+                    <div 
+                     onClick={() => navigate(`/product/${item?.product.id}`)}
+                    className="flex cursor-pointer">
                         < img className="w-[5rem] h-[5rem] object-cover object-top" 
-                        src="https://m.media-amazon.com/images/I/51Wrr3Qi-VL._AC_UL320_.jpg" alt="" />
+                        src={item?.product.imageUrl}
+                        alt="" />
                         <div className="ml-5 space-y-2">
-                            <p className="">Men Slim Mid Rise Black Jeans</p>
-                            <p className="opacity-50 text-xs font-semibold">Size: M</p>
-                            <p className="opacity-50 text-xs font-semibold">Color:Black</p>
+                            <p className="mb-2">{item?.product.title}</p>
+                            <p className="opacity-50 text-xs font-semibold space-x-5">
+                                <span>Size: {item?.size}</span>
+                            </p>
+                            <p className="opacity-50 text-xs font-semibold">{item?.color}</p>
 
                         </div>
                     </div>
                 </Grid >
 
                 <Grid item xs={2}>
-                    <p>₹9000</p>
+                    <p>₹{item?.price}</p>
 
                 </Grid>
 
                 <Grid item xs={4}>
-                    {true && <div>
-                        <p>
-                        <AdjustIcon sx={{width:"15px",height:"15px"}} className="text-green-600 mr-2 text-sm"/>
-                        <span>
-                            Delivered On April 09
-                        </span>
-                        </p>
-                        <p className="text-xs">
-                            Your Item Has Been Delivered
-                        </p>
-                        </div>}
+          <p className="space-y-2 font-semibold">
+            {order?.orderStatus === "DELIVERED"? (
+             <>
+             <FiberManualRecordIcon
+                  sx={{ width: "15px", height: "15px" }}
+                  className="text-green-600 p-0 mr-2 text-sm"
+                />
+                <span>Delivered On Mar 03</span>
 
-                    {false && <p>
-                        <span>
-                            Expected Delivery On April 09
-                        </span>
-                    </p>}
-
-                </Grid>
+            </>
+            ):  <>
+               
+                <AdjustIcon
+                sx={{ width: "15px", height: "15px" }}
+                className="text-green-600 p-0 mr-2 text-sm"
+              />
+              <span>Expected Delivery On Mar 03</span>
+              </>}
+            
+          </p>
+          <p className="text-xs">Your Item Has Been Delivered</p>
+          {item.orderStatus === "DELIVERED" && (
+            <div
+              onClick={() => navigate(`/account/rate/{id}`)}
+              className="flex items-center text-blue-600 cursor-pointer"
+            >
+              <StarIcon sx={{ fontSize: "2rem" }} className="px-2 text-5xl" />
+              <span>Rate & Review Product</span>
+            </div>
+          )}
+        </Grid>
 
             </Grid>
         </div>

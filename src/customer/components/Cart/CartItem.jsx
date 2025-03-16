@@ -58,7 +58,7 @@ const CartItem = ({item}) => {
                     </div>
 
                     <div>
-                        <Button onClick={handleRemoveCartItem} sx={{color:"RGB(145 85 253)"}}>
+                        <Button onClick={()=>handleRemoveCartItem(item.id)} sx={{color:"RGB(145 85 253)"}}>
                             remove
                         </Button>
                     </div>

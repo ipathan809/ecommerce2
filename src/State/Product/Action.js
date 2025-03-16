@@ -1,4 +1,4 @@
-import { api } from "../../config/apiConfig";
+import { API_BASE_URL, api } from "../../config/apiConfig";
 
 import {
   FIND_PRODUCTS_REQUEST,
@@ -6,7 +6,13 @@ import {
   FIND_PRODUCTS_FAILURE,
   FIND_PRODUCT_BY_ID_REQUEST,
   FIND_PRODUCT_BY_ID_SUCCESS,
-  FIND_PRODUCT_BY_ID_FAILURE
+  FIND_PRODUCT_BY_ID_FAILURE,
+  CREATE_PRODUCTS_REQUEST,
+  CREATE_PRODUCTS_SUCCESS,
+  CREATE_PRODUCTS_FAILURE,
+  DELETE_PRODUCTS_FAILURE,
+  DELETE_PRODUCTS_SUCCESS,
+  DELETE_PRODUCTS_REQUEST
 } from "./ActionType";
 
 export const findProducts = (reqData) => async (dispatch) => {
@@ -77,3 +83,43 @@ export const findProductsById = (reqData) => async (dispatch) => {
     });
   }
 };
+
+export const createProduct=(product)=>async(dispatch)=>{
+  try {
+    dispatch({type:CREATE_PRODUCTS_REQUEST})
+
+    const {data}=await api.post(`/api/admin/products/`,product);
+    console.log("product created",data);
+
+    dispatch({type:CREATE_PRODUCTS_SUCCESS,
+              payload:data
+            })
+  } catch (error) {
+
+    dispatch({
+      type: CREATE_PRODUCTS_FAILURE,
+      payload: error.message,
+    });
+    
+  }
+}
+
+export const deleteProduct=(productId)=>async(dispatch)=>{
+  try {
+    dispatch({type:DELETE_PRODUCTS_REQUEST})
+
+    const {data}=await api.delete(`${API_BASE_URL}/api/admin/products/${productId}/delete`);
+
+    dispatch({type:DELETE_PRODUCTS_SUCCESS,
+              payload:productId
+            })
+  } catch (error) {
+
+    dispatch({
+      type: DELETE_PRODUCTS_FAILURE,
+      payload: error.message,
+    });
+    
+  }
+}
+
